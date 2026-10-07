@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keel Bank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+  <main id="auth" class="auth" hidden>
+    <section class="pitch">
+      <div class="brand">Keel</div>
+      <h1>Every rupee accounted for.</h1>
+      <p>Open an account, move money to anyone with an account number, and see each entry in your ledger the moment it
+        posts.</p>
+    </section>
+    <section class="panel">
+      <div class="switch" role="tablist">
+        <button role="tab" id="tab-login" aria-selected="true">Sign in</button>
+        <button role="tab" id="tab-register" aria-selected="false">Open an account</button>
+      </div>
+      <form id="login-form" novalidate>
+        <label>Email<input name="email" type="email" autocomplete="username" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+        <p class="err" role="alert"></p>
+        <button class="primary">Sign in</button>
+      </form>
+      <form id="register-form" novalidate hidden>
+        <label>Full name<input name="fullName" autocomplete="name" required></label>
+        <label>Email<input name="email" type="email" autocomplete="username" required></label>
+        <label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" required>
+          <small>At least 8 characters.</small></label>
+        <p class="err" role="alert"></p>
+        <button class="primary">Open account</button>
+      </form>
+    </section>
+  </main>
+
+  <main id="app" class="app" hidden>
+    <aside class="rail">
+      <div class="brand">Keel</div>
+      <div class="who"><span id="name"></span><span id="email"></span></div>
+      <div class="bal">
+        <span class="bal-label">Available balance</span>
+        <strong id="balance" class="num">0.00</strong>
+      </div>
+      <div class="acct">
+        <span>Account number</span>
+        <button id="copy" class="num" title="Copy account number"></button>
+      </div>
+      <button id="logout" class="ghost">Sign out</button>
+    </aside>
+
+    <section class="work">
+      <div class="card">
+        <div class="switch" role="tablist" id="actions">
+          <button role="tab" data-a="transfer" aria-selected="true">Transfer</button>
+          <button role="tab" data-a="deposit" aria-selected="false">Deposit</button>
+          <button role="tab" data-a="withdraw" aria-selected="false">Withdraw</button>
+        </div>
+
+        <form id="transfer-form" novalidate>
+          <div class="row">
+            <label>Recipient account number<input name="toAccount" inputmode="numeric" maxlength="10" class="num"
+                required></label>
+            <label>Amount<input name="amount" inputmode="decimal" class="num" placeholder="0.00" required></label>
+          </div>
+          <label>Note <small>optional</small><input name="note" maxlength="100"></label>
+          <p class="err" role="alert"></p>
+          <button class="primary">Send money</button>
+        </form>
+
+        <form id="deposit-form" novalidate hidden>
+          <label>Amount<input name="amount" inputmode="decimal" class="num" placeholder="0.00" required></label>
+          <p class="err" role="alert"></p>
+          <button class="primary">Add to balance</button>
+        </form>
+
+        <form id="withdraw-form" novalidate hidden>
+          <label>Amount<input name="amount" inputmode="decimal" class="num" placeholder="0.00" required></label>
+          <p class="err" role="alert"></p>
+          <button class="primary">Withdraw</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Ledger</h2>
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Details</th>
+                <th class="r">Amount</th>
+                <th class="r">Balance</th>
+              </tr>
+            </thead>
+            <tbody id="ledger"></tbody>
+          </table>
+        </div>
+        <p id="empty" class="empty" hidden>No entries yet. Make a deposit to get started.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+
+</html>
